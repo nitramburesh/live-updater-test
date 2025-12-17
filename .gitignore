@@ -1,6 +1,10 @@
 # Dependencies
 node_modules/
 
+# Uploads (but keep the directory structure)
+uploads/*
+!uploads/.gitkeep
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

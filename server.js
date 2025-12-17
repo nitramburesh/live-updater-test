@@ -5,16 +5,23 @@ const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const UPLOAD_DIR = './uploads';
+
+// Ensure uploads directory exists
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR);
+}
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    // Save files to the root directory
-    cb(null, './');
+    // Save files to a dedicated uploads directory
+    cb(null, UPLOAD_DIR);
   },
   filename: function (req, file, cb) {
-    // Keep the original filename
-    cb(null, file.originalname);
+    // Sanitize filename to prevent path traversal attacks
+    const sanitizedFilename = path.basename(file.originalname);
+    cb(null, sanitizedFilename);
   }
 });
 
@@ -62,7 +69,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 // List all zip files endpoint
 app.get('/files', (req, res) => {
-  fs.readdir('./', (err, files) => {
+  fs.readdir(UPLOAD_DIR, (err, files) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to read directory' });
     }

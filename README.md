@@ -69,9 +69,10 @@ Upload a zip file
 - **Parameter**: `file` (the zip file to upload)
 - **Response**: JSON with upload details
 - **Max file size**: 100MB
+- **Storage**: Files are stored in the `uploads/` directory
 
 ### GET /files
-List all zip files in the directory
+List all zip files in the uploads directory
 - **Method**: GET
 - **Response**: JSON with list of zip files
 
@@ -83,7 +84,7 @@ List all zip files in the directory
   "message": "File uploaded successfully",
   "filename": "myapp_1.0.0.zip",
   "size": 353374,
-  "path": "./myapp_1.0.0.zip"
+  "path": "uploads/myapp_1.0.0.zip"
 }
 ```
 
@@ -108,6 +109,8 @@ PORT=8080 npm start
 - Only .zip files are accepted
 - File size is limited to 100MB
 - Files are validated before being saved
+- Filenames are sanitized to prevent path traversal attacks
+- Files are stored in a dedicated `uploads/` directory
 - Consider adding authentication for production use
 
 ## License
