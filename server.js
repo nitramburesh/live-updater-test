@@ -9,7 +9,7 @@ const UPLOAD_DIR = './uploads';
 
 // Ensure uploads directory exists
 if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR);
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 }
 
 // Configure multer for file uploads
@@ -68,6 +68,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 // List all zip files endpoint
+// Note: For production use, consider adding rate limiting to prevent abuse
 app.get('/files', (req, res) => {
   fs.readdir(UPLOAD_DIR, (err, files) => {
     if (err) {

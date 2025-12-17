@@ -112,6 +112,7 @@ PORT=8080 npm start
 - Filenames are sanitized to prevent path traversal attacks
 - Files are stored in a dedicated `uploads/` directory
 - Consider adding authentication for production use
+- Consider adding rate limiting to prevent abuse (e.g., using express-rate-limit)
 
 ## License
 
